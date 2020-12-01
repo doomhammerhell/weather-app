@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.scss';
 
+import { WeatherData } from './components/WeatherData'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -31,9 +33,8 @@ class App extends React.Component {
     }
   }
 
-  getWeatherData = () => {
-    const weatherApi = `http://api.openweathermap.org/data/2.5/weather?q=Oslo&units=metric&appid=${process.env.REACT_APP_WEATHER_KEY}`;
-  
+  getWeatherData = (lat, lon) => {
+    const weatherApi = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.REACT_APP_WEATHER_KEY}`;  
     fetch(weatherApi, { signal: this.controllerSignal })
     .then(response => response.json())
     .then(
@@ -78,14 +79,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getWeatherData();
+    this.weatherInit();
   }
 
   render() {
     return (
       <div className='App'>
         <div className='container'>
-
+        <WeatherData />
         </div>
       </div>
     );
